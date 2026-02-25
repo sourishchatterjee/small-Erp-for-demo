@@ -18,6 +18,7 @@ import UsedMaterialsReport from './pages/reports/UsedMaterialsReport';
 import DateWiseReport from './pages/reports/DateWiseReport';
 import LowestStockReport from './pages/reports/LowestStockReport';
 import AddStore from './pages/master/AddStore';
+import StockOut from './pages/stock/StockOut';
 
 function ProtectedRoute({ children }) {
   const isAuth = localStorage.getItem('erp_auth') === 'true';
@@ -48,6 +49,8 @@ export default function App() {
           
           {/* Stocks */}
           <Route path="stocks" element={<Stock />} />
+          <Route path="stocks/lowest-stock" element={<LowestStockReport />} />
+          <Route path="stocks/stock-out" element={<StockOut/>}/>
           {/* Orders */}
           <Route path="orders/create-po" element={<CreatePO />} />
           <Route path="orders/purchase-orders" element={<PurchaseOrders />} />
@@ -59,7 +62,7 @@ export default function App() {
           <Route path="reports/monthly" element={<MonthlyReport />} />
           <Route path="reports/used-materials" element={<UsedMaterialsReport />} />
           <Route path="reports/date-wise" element={<DateWiseReport />} />
-          <Route path="reports/lowest-stock" element={<LowestStockReport />} />
+          
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

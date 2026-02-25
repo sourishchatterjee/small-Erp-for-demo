@@ -37,10 +37,10 @@
 //                 title: 'Master',
 //                 icon: HiOutlineDatabase,
 //                 children: [
-//                     // { title: 'Material Type', path: '/master/material-type', icon: HiOutlineColorSwatch },
-//                     { title: 'Product',        path: '/master/product',       icon: HiOutlineCube },
-//                     { title: 'Unit',           path: '/master/unit',          icon: HiOutlineScale },
-//                     { title: 'Vendor',         path: '/master/vendor',        icon: HiOutlineTruck },
+//                     { title: 'Product', path: '/master/product', icon: HiOutlineCube },
+//                     { title: 'Unit',    path: '/master/unit',    icon: HiOutlineScale },
+//                     { title: 'Vendor',  path: '/master/vendor',  icon: HiOutlineTruck },
+//                     {title:"AddStore",  path:"master/addstore",icon: HiOutlineDocumentAdd},
 //                 ],
 //             },
 //             { title: 'Stocks', path: '/stocks', icon: HiOutlineTag },
@@ -55,7 +55,7 @@
 //                 children: [
 //                     { title: 'Create PO',       path: '/orders/create-po',       icon: HiOutlineDocumentAdd },
 //                     { title: 'Purchase Orders', path: '/orders/purchase-orders', icon: HiOutlineDocumentText },
-//                     { title: 'Track Orders',    path: '/orders/track',           icon: HiOutlineEye },
+//                     // { title: 'Track Orders',    path: '/orders/track',           icon: HiOutlineEye },
 //                 ],
 //             },
 //         ],
@@ -81,22 +81,30 @@
 // ];
 
 // const bottomItems = [
-//     { title: 'Settings', path: '/settings', icon: HiOutlineCog },
-//     { title: 'Help',     path: '/help',     icon: HiOutlineQuestionMarkCircle },
+//     // { title: 'Settings', path: '/settings', icon: HiOutlineCog },
+//     // { title: 'Help',     path: '/help',     icon: HiOutlineQuestionMarkCircle },
 //     { title: 'Logout',   path: '/logout',   icon: HiOutlineLogout },
 // ];
 
 // // ── Styles ────────────────────────────────────────────────────
 // const S = {
 
+//     // Blue dot for active child — visible on white background
 //     sideActiveDot: {
-//     width: 6,
-//     height: 6,
-//     borderRadius: '50%',
-//     background: '#ffffff',
-//     marginRight: 6,
-//     flexShrink: 0,
-// },
+//         width: 8,
+//         height: 8,
+//         borderRadius: '50%',
+//         background: '#2563eb',
+//         flexShrink: 0,
+//     },
+
+//     // Invisible placeholder dot to keep alignment on inactive children
+//     sideDotPlaceholder: {
+//         width: 8,
+//         height: 8,
+//         flexShrink: 0,
+//     },
+
 //     sideAside: {
 //         width: 'var(--sidebar-width, 280px)',
 //         position: 'fixed',
@@ -252,25 +260,27 @@
 //         borderTop: '1px solid #f3f4f6',
 //         borderBottom: '1px solid #f3f4f6',
 //     },
+
+//     // Child item — light blue bg + blue text when active (NO solid fill)
 //     sideChildItem: (isActive) => ({
 //         display: 'flex',
 //         alignItems: 'center',
-//         gap: 14,
-//         paddingTop: 11,
-//         paddingBottom: 11,
-//         paddingLeft: 64,
+//         gap: 12,
+//         paddingTop: 10,
+//         paddingBottom: 10,
+//         paddingLeft: 52,
 //         paddingRight: 24,
 //         fontSize: 14,
-//         fontWeight: 500,
-//         color: isActive ? '#ffffff' : '#6b7280',
-//         background: isActive ? '#2563eb' : 'transparent',
+//         fontWeight: isActive ? 600 : 500,
+//         color: isActive ? '#2563eb' : '#6b7280',
+//         background: isActive ? '#eff6ff' : 'transparent',
 //         textDecoration: 'none',
 //         transition: 'background 0.1s, color 0.1s',
 //     }),
 //     sideChildIcon: (isActive) => ({
-//         fontSize: 18,
+//         fontSize: 17,
 //         flexShrink: 0,
-//         color: isActive ? '#ffffff' : '#9ca3af',
+//         color: isActive ? '#2563eb' : '#9ca3af',
 //     }),
 //     sideChildLabel: {
 //         overflow: 'hidden',
@@ -345,7 +355,6 @@
 //         <NavLink
 //             to={item.path}
 //             end
-//             className="side-nav-item"
 //             style={({ isActive }) => ({
 //                 ...S.sideNavItem(isActive),
 //                 ...(hovered && !isActive ? S.sideNavItemHover : {}),
@@ -355,13 +364,39 @@
 //         >
 //             {({ isActive }) => (
 //                 <>
-//                     <Icon
-//                         className="side-nav-icon"
-//                         style={S.sideNavIcon(isActive)}
-//                     />
-//                     <span className="side-nav-label" style={S.sideNavLabel}>
-//                         {item.title}
-//                     </span>
+//                     <Icon style={S.sideNavIcon(isActive)} />
+//                     <span style={S.sideNavLabel}>{item.title}</span>
+//                 </>
+//             )}
+//         </NavLink>
+//     );
+// }
+
+// // ── Child NavLink — blue dot only when active ─────────────────
+// function ChildNavLink({ child, ChildIcon }) {
+//     const { hovered, onMouseEnter, onMouseLeave } = useHover();
+
+//     return (
+//         <NavLink
+//             to={child.path}
+//             end
+//             style={({ isActive }) => ({
+//                 ...S.sideChildItem(isActive),
+//                 ...(hovered && !isActive
+//                     ? { background: '#f0f9ff', color: '#1d4ed8' }
+//                     : {}),
+//             })}
+//             onMouseEnter={onMouseEnter}
+//             onMouseLeave={onMouseLeave}
+//         >
+//             {({ isActive }) => (
+//                 <>
+//                     {/* Dot: blue when active, invisible placeholder when not */}
+//                     <span style={isActive ? S.sideActiveDot : S.sideDotPlaceholder} />
+
+//                     <ChildIcon style={S.sideChildIcon(isActive)} />
+
+//                     <span style={S.sideChildLabel}>{child.title}</span>
 //                 </>
 //             )}
 //         </NavLink>
@@ -377,9 +412,8 @@
 //     const { hovered, onMouseEnter, onMouseLeave } = useHover();
 
 //     return (
-//         <li className="side-group-item">
+//         <li>
 //             <button
-//                 className="side-group-btn"
 //                 onClick={() => onToggle(item.title)}
 //                 onMouseEnter={onMouseEnter}
 //                 onMouseLeave={onMouseLeave}
@@ -390,25 +424,20 @@
 //                         : {}),
 //                 }}
 //             >
-//                 <Icon
-//                     className="side-group-icon"
-//                     style={S.sideGroupIcon(parentActive, isOpen)}
-//                 />
-//                 <span className="side-group-label" style={S.sideGroupLabel}>
-//                     {item.title}
-//                 </span>
+//                 <Icon style={S.sideGroupIcon(parentActive, isOpen)} />
+//                 <span style={S.sideGroupLabel}>{item.title}</span>
 //                 {isOpen
-//                     ? <HiOutlineChevronUp  className="side-chevron" style={S.sideChevron(parentActive)} />
-//                     : <HiOutlineChevronDown className="side-chevron" style={S.sideChevron(parentActive)} />
+//                     ? <HiOutlineChevronUp  style={S.sideChevron(parentActive)} />
+//                     : <HiOutlineChevronDown style={S.sideChevron(parentActive)} />
 //                 }
 //             </button>
 
 //             {isOpen && (
-//                 <ul className="side-child-list" style={S.sideChildList}>
+//                 <ul style={S.sideChildList}>
 //                     {item.children.map((child) => {
 //                         const ChildIcon = child.icon;
 //                         return (
-//                             <li key={child.path} className="side-child-list-item">
+//                             <li key={child.path}>
 //                                 <ChildNavLink child={child} ChildIcon={ChildIcon} />
 //                             </li>
 //                         );
@@ -419,50 +448,19 @@
 //     );
 // }
 
-// // ── Child NavLink ─────────────────────────────────────────────
-// // function ChildNavLink({ child, ChildIcon }) {
-// //     const { hovered, onMouseEnter, onMouseLeave } = useHover();
-// //     return (
-// //         <NavLink
-// //             to={child.path}
-// //             end
-// //             className="side-child-item"
-// //             style={({ isActive }) => ({
-// //                 ...S.sideChildItem(isActive),
-// //                 ...(hovered && !isActive
-// //                     ? { background: '#dbeafe', color: '#1d4ed8' }
-// //                     : {}),
-// //             })}
-// //             onMouseEnter={onMouseEnter}
-// //             onMouseLeave={onMouseLeave}
-// //         >
-// //             {({ isActive }) => (
-// //                 <>
-// //                     <ChildIcon
-// //                         className="side-child-icon"
-// //                         style={S.sideChildIcon(isActive)}
-// //                     />
-// //                     <span className="side-child-label" style={S.sideChildLabel}>
-// //                         {child.title}
-// //                     </span>
-// //                 </>
-// //             )}
-// //         </NavLink>
-// //     );
-// // }
-
-// function ChildNavLink({ child, ChildIcon }) {
+// // ── Bottom NavLink ────────────────────────────────────────────
+// function BottomNavLink({ item, Icon, isLogout }) {
 //     const { hovered, onMouseEnter, onMouseLeave } = useHover();
-
 //     return (
 //         <NavLink
-//             to={child.path}
-//             end
-//             className="side-child-item"
+//             to={item.path}
 //             style={({ isActive }) => ({
-//                 ...S.sideChildItem(isActive),
+//                 ...S.sideBottomItem(isActive, isLogout),
 //                 ...(hovered && !isActive
-//                     ? { background: '#dbeafe', color: '#1d4ed8' }
+//                     ? {
+//                         background: isLogout ? '#fff1f2' : '#eff6ff',
+//                         color: isLogout ? '#dc2626' : '#1d4ed8',
+//                       }
 //                     : {}),
 //             })}
 //             onMouseEnter={onMouseEnter}
@@ -470,20 +468,8 @@
 //         >
 //             {({ isActive }) => (
 //                 <>
-//                     {/* ✅ Active Dot */}
-//                     {isActive && <span style={S.sideActiveDot}></span>}
-
-//                     <ChildIcon
-//                         className="side-child-icon"
-//                         style={S.sideChildIcon(isActive)}
-//                     />
-
-//                     <span
-//                         className="side-child-label"
-//                         style={S.sideChildLabel}
-//                     >
-//                         {child.title}
-//                     </span>
+//                     <Icon style={S.sideBottomIcon(isActive, isLogout)} />
+//                     <span>{item.title}</span>
 //                 </>
 //             )}
 //         </NavLink>
@@ -512,35 +498,30 @@
 //         setExpanded((prev) => ({ ...prev, [title]: !prev[title] }));
 
 //     return (
-//         <aside className="side-aside" style={S.sideAside}>
+//         <aside style={S.sideAside}>
 
 //             {/* ── Logo ── */}
-//             <div className="side-logo-wrap" style={S.sideLogoWrap}>
-//                 <div className="side-logo-box" style={S.sideLogoBox}>PE</div>
-//                 <div className="side-logo-text">
-//                     <h1 className="side-logo-title" style={S.sideLogoTitle}>Purchase ERP</h1>
-//                     <p className="side-logo-sub"   style={S.sideLogoSub}>Stock Management</p>
+//             <div style={S.sideLogoWrap}>
+//                 <div style={S.sideLogoBox}>PE</div>
+//                 <div>
+//                     <h1 style={S.sideLogoTitle}>Purchase ERP</h1>
+//                     <p style={S.sideLogoSub}>Stock Management</p>
 //                 </div>
 //             </div>
 
 //             {/* ── Nav ── */}
-//             <nav className="side-nav" style={S.sideNav}>
+//             <nav style={S.sideNav}>
 //                 {menuSections.map((section, sIdx) => (
-//                     <div className="side-section-wrap" key={sIdx} style={S.sideSectionWrap}>
-
-//                         {/* Section label + divider */}
+//                     <div key={sIdx} style={S.sideSectionWrap}>
 //                         {sIdx > 0 && (
-//                             <div className="side-section-divider" style={S.sideSectionDivider}>
+//                             <div style={S.sideSectionDivider}>
 //                                 {section.label && (
-//                                     <span className="side-section-label" style={S.sideSectionLabel}>
-//                                         {section.label}
-//                                     </span>
+//                                     <span style={S.sideSectionLabel}>{section.label}</span>
 //                                 )}
-//                                 <div className="side-section-line" style={S.sideSectionLine} />
+//                                 <div style={S.sideSectionLine} />
 //                             </div>
 //                         )}
-
-//                         <ul className="side-section-list" style={S.sideSectionList}>
+//                         <ul style={S.sideSectionList}>
 //                             {section.items.map((item) =>
 //                                 item.children ? (
 //                                     <GroupItem
@@ -550,7 +531,7 @@
 //                                         onToggle={toggleExpand}
 //                                     />
 //                                 ) : (
-//                                     <li key={item.path} className="side-nav-item-wrap">
+//                                     <li key={item.path}>
 //                                         <NavItem item={item} />
 //                                     </li>
 //                                 )
@@ -561,17 +542,17 @@
 //             </nav>
 
 //             {/* ── Bottom system section ── */}
-//             <div className="side-bottom-wrap" style={S.sideBottomWrap}>
-//                 <div className="side-bottom-divider" style={S.sideBottomDivider}>
-//                     <span className="side-bottom-label" style={S.sideBottomLabel}>System</span>
-//                     <div className="side-bottom-line" style={S.sideBottomLine} />
+//             <div style={S.sideBottomWrap}>
+//                 <div style={S.sideBottomDivider}>
+//                     <span style={S.sideBottomLabel}>System</span>
+//                     <div style={S.sideBottomLine} />
 //                 </div>
-//                 <ul className="side-bottom-list" style={S.sideBottomList}>
+//                 <ul style={S.sideBottomList}>
 //                     {bottomItems.map((item) => {
 //                         const Icon = item.icon;
 //                         const isLogout = item.title === 'Logout';
 //                         return (
-//                             <li key={item.path} className="side-bottom-list-item">
+//                             <li key={item.path}>
 //                                 <BottomNavLink item={item} Icon={Icon} isLogout={isLogout} />
 //                             </li>
 //                         );
@@ -582,37 +563,24 @@
 //     );
 // }
 
-// // ── Bottom NavLink ────────────────────────────────────────────
-// function BottomNavLink({ item, Icon, isLogout }) {
-//     const { hovered, onMouseEnter, onMouseLeave } = useHover();
-//     return (
-//         <NavLink
-//             to={item.path}
-//             className="side-bottom-item"
-//             style={({ isActive }) => ({
-//                 ...S.sideBottomItem(isActive, isLogout),
-//                 ...(hovered && !isActive
-//                     ? {
-//                         background: isLogout ? '#fff1f2' : '#eff6ff',
-//                         color: isLogout ? '#dc2626' : '#1d4ed8',
-//                       }
-//                     : {}),
-//             })}
-//             onMouseEnter={onMouseEnter}
-//             onMouseLeave={onMouseLeave}
-//         >
-//             {({ isActive }) => (
-//                 <>
-//                     <Icon
-//                         className="side-bottom-icon"
-//                         style={S.sideBottomIcon(isActive, isLogout)}
-//                     />
-//                     <span className="side-bottom-item-label">{item.title}</span>
-//                 </>
-//             )}
-//         </NavLink>
-//     );
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -641,6 +609,9 @@ import {
     HiOutlineCog,
     HiOutlineQuestionMarkCircle,
     HiOutlineLogout,
+    HiOutlineArchive,
+    HiOutlineExclamation,
+    HiOutlineMinusCircle,
 } from 'react-icons/hi';
 
 // ── Menu Config ───────────────────────────────────────────────
@@ -657,13 +628,21 @@ const menuSections = [
                 title: 'Master',
                 icon: HiOutlineDatabase,
                 children: [
-                    { title: 'Product', path: '/master/product', icon: HiOutlineCube },
-                    { title: 'Unit',    path: '/master/unit',    icon: HiOutlineScale },
-                    { title: 'Vendor',  path: '/master/vendor',  icon: HiOutlineTruck },
-                    {title:"AddStore",  path:"master/addstore",icon: HiOutlineDocumentAdd},
+                    { title: 'Product',   path: '/master/product',   icon: HiOutlineCube },
+                    { title: 'Unit',      path: '/master/unit',      icon: HiOutlineScale },
+                    { title: 'Vendor',    path: '/master/vendor',    icon: HiOutlineTruck },
+                    { title: 'Add Store', path: '/master/addstore',  icon: HiOutlineDocumentAdd },
                 ],
             },
-            { title: 'Stocks', path: '/stocks', icon: HiOutlineTag },
+            {
+                title: 'Stocks',
+                icon: HiOutlineArchive,
+                children: [
+                    { title: 'All Stocks', path: '/stocks',           icon: HiOutlineTag },
+                    { title: 'Low Stock',  path: 'stocks/lowest-stock', icon: HiOutlineTrendingDown },
+                    { title: 'Stock Out',  path: 'stocks/stock-out', icon: HiOutlineMinusCircle },
+                ],
+            },
         ],
     },
     {
@@ -675,7 +654,6 @@ const menuSections = [
                 children: [
                     { title: 'Create PO',       path: '/orders/create-po',       icon: HiOutlineDocumentAdd },
                     { title: 'Purchase Orders', path: '/orders/purchase-orders', icon: HiOutlineDocumentText },
-                    // { title: 'Track Orders',    path: '/orders/track',           icon: HiOutlineEye },
                 ],
             },
         ],
@@ -701,15 +679,11 @@ const menuSections = [
 ];
 
 const bottomItems = [
-    { title: 'Settings', path: '/settings', icon: HiOutlineCog },
-    { title: 'Help',     path: '/help',     icon: HiOutlineQuestionMarkCircle },
-    { title: 'Logout',   path: '/logout',   icon: HiOutlineLogout },
+    { title: 'Logout', path: '/logout', icon: HiOutlineLogout },
 ];
 
 // ── Styles ────────────────────────────────────────────────────
 const S = {
-
-    // Blue dot for active child — visible on white background
     sideActiveDot: {
         width: 8,
         height: 8,
@@ -717,14 +691,11 @@ const S = {
         background: '#2563eb',
         flexShrink: 0,
     },
-
-    // Invisible placeholder dot to keep alignment on inactive children
     sideDotPlaceholder: {
         width: 8,
         height: 8,
         flexShrink: 0,
     },
-
     sideAside: {
         width: 'var(--sidebar-width, 280px)',
         position: 'fixed',
@@ -737,8 +708,6 @@ const S = {
         background: '#ffffff',
         borderRight: '1px solid #e5e7eb',
     },
-
-    // Logo
     sideLogoWrap: {
         height: 72,
         display: 'flex',
@@ -777,8 +746,6 @@ const S = {
         textTransform: 'uppercase',
         margin: 0,
     },
-
-    // Nav
     sideNav: {
         flex: 1,
         overflowY: 'auto',
@@ -809,8 +776,6 @@ const S = {
         padding: 0,
         listStyle: 'none',
     },
-
-    // Nav item (leaf)
     sideNavItem: (isActive) => ({
         display: 'flex',
         alignItems: 'center',
@@ -839,8 +804,6 @@ const S = {
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
     },
-
-    // Group parent button
     sideGroupBtn: (isActive, isOpen) => ({
         width: '100%',
         display: 'flex',
@@ -870,8 +833,6 @@ const S = {
         flexShrink: 0,
         color: isActive ? '#ffffff' : '#9ca3af',
     }),
-
-    // Children list
     sideChildList: {
         margin: 0,
         padding: 0,
@@ -880,8 +841,6 @@ const S = {
         borderTop: '1px solid #f3f4f6',
         borderBottom: '1px solid #f3f4f6',
     },
-
-    // Child item — light blue bg + blue text when active (NO solid fill)
     sideChildItem: (isActive) => ({
         display: 'flex',
         alignItems: 'center',
@@ -908,7 +867,21 @@ const S = {
         whiteSpace: 'nowrap',
     },
 
-    // Bottom section
+    // Special badge for low stock / stock out warning indicators
+    sideChildBadge: (variant) => ({
+        marginLeft: 'auto',
+        fontSize: 10,
+        fontWeight: 700,
+        borderRadius: 99,
+        padding: '2px 7px',
+        flexShrink: 0,
+        ...(variant === 'warning'
+            ? { background: '#fef3c7', color: '#d97706', border: '1px solid #fde68a' }
+            : variant === 'danger'
+            ? { background: '#fee2e2', color: '#dc2626', border: '1px solid #fecaca' }
+            : {}),
+    }),
+
     sideBottomWrap: {
         flexShrink: 0,
         borderTop: '1px solid #e5e7eb',
@@ -956,6 +929,12 @@ const S = {
     }),
 };
 
+// ── Badge config for special child items ──────────────────────
+const CHILD_BADGES = {
+    '/stocks/low-stock': { label: 'Low',  variant: 'warning' },
+    '/stocks/stock-out': { label: 'Out',  variant: 'danger'  },
+};
+
 // ── Hover helper ──────────────────────────────────────────────
 function useHover() {
     const [hovered, setHovered] = useState(false);
@@ -970,7 +949,6 @@ function useHover() {
 function NavItem({ item }) {
     const Icon = item.icon;
     const { hovered, onMouseEnter, onMouseLeave } = useHover();
-
     return (
         <NavLink
             to={item.path}
@@ -992,9 +970,10 @@ function NavItem({ item }) {
     );
 }
 
-// ── Child NavLink — blue dot only when active ─────────────────
+// ── Child NavLink ─────────────────────────────────────────────
 function ChildNavLink({ child, ChildIcon }) {
     const { hovered, onMouseEnter, onMouseLeave } = useHover();
+    const badge = CHILD_BADGES[child.path];
 
     return (
         <NavLink
@@ -1011,12 +990,14 @@ function ChildNavLink({ child, ChildIcon }) {
         >
             {({ isActive }) => (
                 <>
-                    {/* Dot: blue when active, invisible placeholder when not */}
                     <span style={isActive ? S.sideActiveDot : S.sideDotPlaceholder} />
-
                     <ChildIcon style={S.sideChildIcon(isActive)} />
-
                     <span style={S.sideChildLabel}>{child.title}</span>
+                    {badge && (
+                        <span style={S.sideChildBadge(badge.variant)}>
+                            {badge.label}
+                        </span>
+                    )}
                 </>
             )}
         </NavLink>
