@@ -675,7 +675,7 @@ const menuSections = [
                 children: [
                     { title: 'Create PO',       path: '/orders/create-po',       icon: HiOutlineDocumentAdd },
                     { title: 'Purchase Orders', path: '/orders/purchase-orders', icon: HiOutlineDocumentText },
-                    { title: 'Track Orders',    path: '/orders/track',           icon: HiOutlineEye },
+                    // { title: 'Track Orders',    path: '/orders/track',           icon: HiOutlineEye },
                 ],
             },
         ],

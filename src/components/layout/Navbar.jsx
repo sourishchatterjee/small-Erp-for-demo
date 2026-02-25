@@ -35,12 +35,37 @@ export default function Navbar() {
             style={{ height: 'var(--navbar-height)', left: 'var(--sidebar-width)' }}
             className="fixed top-0 right-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6"
         >
+
+
+{/*             
             <div>
                 <h2 className="text-lg font-bold text-slate-800">{title}</h2>
                 <p className="text-xs text-slate-400">
                     {new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' })}
                 </p>
-            </div>
+            </div> */}
+
+{/* 
+
+<div className="flex items-center justify-between px-6 py-4 bg-white rounded-xl shadow-sm">
+    <div>
+        <h2 className="text-lg font-semibold text-slate-800 tracking-tight">
+            {title}
+        </h2>
+        <p className="text-xs text-slate-400 mt-1">
+            {new Date().toLocaleDateString('en-IN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            })}
+        </p>
+    </div>
+</div> 
+
+*/}
+
+
 
             <div className="flex items-center gap-3">
                 {/* Search */}
