@@ -635,7 +635,7 @@ const menuSections = [
                 ],
             },
             {
-                title: 'Stocks',
+                title: 'Stocks', 
                 icon: HiOutlineArchive,
                 children: [
                     { title: 'All Stocks', path: '/stocks',           icon: HiOutlineTag },
@@ -671,7 +671,8 @@ const menuSections = [
                     { title: 'Monthly Report',  path: '/reports/monthly',        icon: HiOutlineCalendar },
                     { title: 'Used Materials',  path: '/reports/used-materials', icon: HiOutlineColorSwatch },
                     { title: 'Date Wise',       path: '/reports/date-wise',      icon: HiOutlineCalendar },
-                    { title: 'Lowest Stock',    path: '/reports/lowest-stock',   icon: HiOutlineTrendingDown },
+                    // { title: 'Lowest Stock',    path: '/reports/lowest-stock',   icon: HiOutlineTrendingDown },
+                    {title:'Stock Out',         path:'/reports/stockoutreport',  icon: HiOutlineTrendingDown}
                 ],
             },
         ],
